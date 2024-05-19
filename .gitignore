@@ -1,0 +1,4 @@
+dist/
+django_text_manager.egg-info/
+*.pyc
+*.pyx
