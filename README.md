@@ -1,7 +1,7 @@
 ## django-text-manager - no more problems with texts for bots, websites, etc.
 
-#### v0.1 - Basic functionality
-#### TODO - api support
+#### v0.1.1 - Basic functionality with api
+
 ## Documentation
 ### settings.py
 ```python3
@@ -29,4 +29,43 @@ text = Text.objects.get(unique_id='test').render(language="en", params={
 print(text)
 
 # >>> Hello, friend! - text in db: Hello, {{ var1 }}!
+```
+
+## API
+### urls.py
+```python3
+from django.urls import path, include
+
+urlpatterns = [
+    path("textmanager/", include("textmanager.urls")),
+]
+```
+### how to send request?
+```python3
+import requests
+import json
+resp = requests.post(url="http://0.0.0.0:1234/textmanager/text/", json={
+    "unique_id": "test",
+    "language": "en", # optional, default=None
+    "render_with_jinja": False, # optional, default=true
+    "params": {} # optional, default={}
+}, headers={"Authorization": "Token ****"})
+data = json.loads(resp.text)
+print(data)
+
+# >>> {'text': 'Hello, {{ var1 }}!'} # if language specified
+# >>> {
+#    'texts': [
+#        {
+#            'language': {
+#                'alpha2': 'en', 
+#                'alpha3_b': 'eng', 
+#                'english_name': 'English', 
+#                'language_name': 'English', 
+#                'flag': '🇬🇧'
+#            }, 
+#            'text': 'Hello, {{ var1 }}!'
+#        }, ...
+#    ]
+# }# if language is not specified
 ```

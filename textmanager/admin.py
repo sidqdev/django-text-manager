@@ -44,6 +44,7 @@ class LanguageTextInline(admin.TabularInline):
 class TextAdmin(admin.ModelAdmin):
     list_display = ('unique_id', 'category', 'description')
     list_filter = ('category',)
+    autocomplete_fields = ('category',)
     inlines = [LanguageTextInline,]
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:

@@ -14,7 +14,7 @@ project_urls = {
 
 setup(
     name='django-text-manager',
-    version='0.1.0',
+    version='0.1.1',
     author='Sidq',
     author_email='abba.dmytro@gmail.com',
     description='Django module for multi languages management',
