@@ -14,7 +14,7 @@ project_urls = {
 
 setup(
     name='django-text-manager',
-    version='0.1.1',
+    version='0.1.2',
     author='Sidq',
     author_email='abba.dmytro@gmail.com',
     description='Django module for multi languages management',
@@ -27,10 +27,13 @@ setup(
         'Programming Language :: Python :: 3',
         'Operating System :: OS Independent',
     ],
-    requires=[
+    setup_requires=[
         "Jinja2",
         "django",
         "djangorestframework"
+    ],
+    data_files=[
+        "textmanager/management/commands/languages.json"
     ],
     python_requires='>=3.6',
 )
