@@ -11,10 +11,9 @@ project_urls = {
   'Telegram': 'https://t.me/sidqdev'
 }
 
-
 setup(
     name='django-text-manager',
-    version='0.1.2',
+    version='0.1.4',
     author='Sidq',
     author_email='abba.dmytro@gmail.com',
     description='Django module for multi languages management',
@@ -27,14 +26,13 @@ setup(
         'Programming Language :: Python :: 3',
         'Operating System :: OS Independent',
     ],
-    setup_requires=[
+    install_requires=[
         "Jinja2",
         "django",
         "djangorestframework"
     ],
-    data_files=[
-        "textmanager/management/commands/languages.json"
-    ],
+    package_data={'textmanager.management.commands': ['*.json']},
+    include_package_data=True,
     python_requires='>=3.6',
 )
 
