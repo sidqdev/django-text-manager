@@ -1,6 +1,7 @@
 ## django-text-manager - no more problems with texts for bots, websites, etc.
 
 #### v0.1.1 - Basic functionality with api
+#### v0.1.5 - Fixes of some bugs, new variable TEXT_MANAGER_DEFAULT_API_LANGUAGE in settings
 
 ## Documentation
 ### settings.py
@@ -13,6 +14,7 @@ INSTALLED_APPS = [
 
 TEXT_MANAGER_EXTRA_LANGUAGES = ['uk'] # Optional, default languages when u add new text
 TEXT_MANAGER_AVAILABLE_LANGUAGES = ['ru', 'uk', 'en'] # Optional, list of availbale languages in project 
+TEXT_MANAGER_DEFAULT_API_LANGUAGE = 'en' # Optional, default language for api, fr. en to render english text if 'language' row in empty
 ```
 ### How to add languages? (load in database 107 different languages)
 ```bash

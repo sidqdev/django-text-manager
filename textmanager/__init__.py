@@ -10,7 +10,8 @@ def configure_default_setting(default_settings: dict):
 
 configure_default_setting({
     "TEXT_MANAGER_EXTRA_LANGUAGES": [], # In text admin extra inline items with languages
-    "TEXT_MANAGER_AVAILABLE_LANGUAGES": None # For filtering in queryset in languages admin
+    "TEXT_MANAGER_AVAILABLE_LANGUAGES": None, # For filtering in queryset in languages admin
+    "TEXT_MANAGER_DEFAULT_API_LANGUAGE": None, # Default language for api, fr. en to render english text if 'language' row in empty
 })
 
 if settings.TEXT_MANAGER_AVAILABLE_LANGUAGES is not None:

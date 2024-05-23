@@ -1,9 +1,11 @@
+from django.conf import settings
 from rest_framework import serializers
+
 
 
 class TextParamsSerializer(serializers.Serializer):
     unique_id = serializers.CharField()
-    language = serializers.CharField(default=None, allow_null=True)
+    language = serializers.CharField(default=settings.TEXT_MANAGER_DEFAULT_API_LANGUAGE, allow_null=True)
     render_with_jinja = serializers.BooleanField(default=True)
     params = serializers.JSONField(default={})
 
