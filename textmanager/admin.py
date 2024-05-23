@@ -2,9 +2,9 @@ from typing import Any
 from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
-from django.forms.models import BaseInlineFormSet
 from textmanager.models import Language, Text, Category, LanguageText
 from textmanager import queryset_manager
+from textmanager import formsets
 
 
 class LanguageAdmin(admin.ModelAdmin):
@@ -21,24 +21,16 @@ class CategoryAdmin(admin.ModelAdmin):
     filter_horizontal = ('groups', )
 
 
-class LanguageTextInlineFormSet(BaseInlineFormSet):
-    def __init__(self, *args, **kwargs):
-        qs = queryset_manager.extra_languages_queryset_filter(Language.objects)
-        if qs is not None:
-            kwargs['initial'] = [
-                {'language': i}
-                for i in qs
-            ]
-        super(LanguageTextInlineFormSet, self).__init__(*args, **kwargs)
-
-
 class LanguageTextInline(admin.TabularInline):
     model = LanguageText
     autocomplete_fields = ('language',)
-    formset = LanguageTextInlineFormSet
 
+    def get_formset(self, request: HttpRequest, obj=None, **kwargs: Any) -> Any:
+        kwargs['formset'] = formsets.language_text_inlile_formset_factory(obj)
+        return super().get_formset(request, obj, **kwargs)
+    
     def get_extra(self, request: HttpRequest, obj=None, **kwargs: Any) -> int:
-        return queryset_manager.extra_languages_queryset_filter(Language.objects).count()
+        return queryset_manager.extra_languages_queryset_filter(Language.objects, obj).count()
 
 
 class TextAdmin(admin.ModelAdmin):
