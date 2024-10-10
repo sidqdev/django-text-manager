@@ -16,6 +16,9 @@ class Language(models.Model):
 
     def __str__(self) -> int:
         return f"{self.english_name}{self.flag}"
+
+    class Meta:
+        db_table = 'textmanager_language'
     
     
 class Category(models.Model):
@@ -29,6 +32,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
+        db_table = 'textmanager_category'        
 
 
 class Text(models.Model):
@@ -59,6 +63,9 @@ class Text(models.Model):
     def __str__(self) -> str:
         return f"Text({self.unique_id})"
 
+    class Meta:
+        db_table = 'textmanager_text'
+
 
 class LanguageText(models.Model):
     language = models.ForeignKey(to=Language, on_delete=models.CASCADE)
@@ -73,3 +80,4 @@ class LanguageText(models.Model):
 
     class Meta:
         unique_together = ('language', 'text',)
+        db_table = 'textmanager_language_text'
