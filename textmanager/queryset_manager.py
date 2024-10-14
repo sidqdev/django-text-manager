@@ -27,5 +27,4 @@ def available_for_user_text_queryset_filter(qs: QuerySet[Text], user: User) -> Q
     if user.is_superuser:
         return qs
 
-
-    return qs.filter(Q(category__groups__in=user.groups.all()) | Q(category=None))
+    return qs.filter(Q(category__groups__in=user.groups.all()) | Q(category__groups=None))
