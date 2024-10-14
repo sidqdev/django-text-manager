@@ -15,6 +15,7 @@ INSTALLED_APPS = [
 TEXT_MANAGER_EXTRA_LANGUAGES = ['uk'] # Optional, default languages when u add new text
 TEXT_MANAGER_AVAILABLE_LANGUAGES = ['ru', 'uk', 'en'] # Optional, list of availbale languages in project 
 TEXT_MANAGER_DEFAULT_API_LANGUAGE = 'en' # Optional, default language for api, fr. en to render english text if 'language' row in empty
+TEXT_MANAGER_PERMISSION_CLASSES = ['rest_framework.permissions.IsAuthenticated',] # Optional, permission classes for api
 ```
 ### How to add languages? (load in database 107 different languages)
 ```bash
@@ -47,7 +48,10 @@ urlpatterns = [
 import requests
 import json
 resp = requests.post(url="http://0.0.0.0:1234/textmanager/text/", json={
+    "id": 5, # id or unique_id is required
+    # or
     "unique_id": "test",
+
     "language": "en", # optional, default=None
     "render_with_jinja": False, # optional, default=true
     "params": {} # optional, default={}

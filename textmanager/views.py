@@ -1,8 +1,9 @@
 import json
 from django.http import HttpRequest, JsonResponse
+from django.db.models import Q
+from django.conf import settings
 
 from rest_framework.views import APIView
-from rest_framework import permissions
 
 from textmanager.serializers import TextParamsSerializer, LanguageSerializer
 from textmanager.models import Language, Text
@@ -10,7 +11,7 @@ from textmanager import queryset_manager, responses
 
 
 class TextView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = settings.TEXT_MANAGER_PERMISSION_CLASSES
 
     def post(self, request: HttpRequest):
         data = TextParamsSerializer(data=json.loads(request.body))
@@ -18,10 +19,10 @@ class TextView(APIView):
             return JsonResponse(data.errors)
         
         language = data.validated_data['language']
-        unique_id = data.validated_data['unique_id']
+        unique_id = data.validated_data.get('unique_id')
+        id = data.validated_data.get('id')
         render_with_jinja = data.validated_data['render_with_jinja']
         params = data.validated_data['params']
-
         if language is not None:
             qs = queryset_manager.available_languages_queryset_filter(Language.objects)
             language = queryset_manager._filter_languages(qs, [data.validated_data['language']]).first()
@@ -30,7 +31,7 @@ class TextView(APIView):
         
         text = queryset_manager.available_for_user_text_queryset_filter(
             Text.objects, request.user
-        ).filter(unique_id=unique_id).first()
+        ).filter(Q(unique_id=unique_id, unique_id__isnull=False) | Q(id=id)).first()
         
         if text is None:
             return responses.TEXT_NOT_FOUND
